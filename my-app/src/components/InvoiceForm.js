@@ -56,11 +56,14 @@ class InvoiceForm extends React.Component {
     }, this.handleCalculateTotal);
   }
 
-  handleAddEvent() {
+  handleAddEvent(evt) {
     const id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
     const newItem = { id, name: '', description: '', price: '1.00', quantity: 1, itemPO: '' };
 
-    this.setState(prevState => ({ items: [...prevState.items, newItem] }), this.handleCalculateTotal);
+    // this.setState(prevState => ({ items: [...prevState.items, newItem] }), this.handleCalculateTotal);
+    this.setState(prevState => ({ items: prevState.items.map(item => item.id === evt.target.id ? { ...item, [evt.target.name]: evt.target.value } : item)
+    }), this.handleCalculateTotal);
+    
   }
 
   handleCalculateTotal() {
@@ -72,8 +75,7 @@ class InvoiceForm extends React.Component {
     const netAmount = parseFloat(this.state.net_amount) || 0; // Ensure net_amount is numeric
     const taxAmmount = (subTotal * (this.state.taxRate / 100)).toFixed(2);
     const discountAmmount = (subTotal * (this.state.discountRate / 100)).toFixed(2);
-    const total = (subTotal + netAmount + parseFloat(taxAmmount) - parseFloat(discountAmmount)).toFixed(2);
-  
+    const total = (subTotal + parseFloat(taxAmmount) - parseFloat(discountAmmount)).toFixed(2);
     this.setState({ subTotal: subTotal.toFixed(2), taxAmmount, discountAmmount, total });
   }
   
@@ -231,6 +233,11 @@ class InvoiceForm extends React.Component {
                 <option value="$">SGD (Signapore Dollar)</option>
                 <option value="¥">CNY (Chinese Renminbi)</option>
                 <option value="₿">BTC (Bitcoin)</option>
+                <option value="TND">TND (Tunisian Dinaar)</option>
+                <option value="د.ت">TNDs (Tunisian Dinaar)</option>
+                <option value="د. إ">AED (United Arab Emirates dirham)</option>
+                <option value="AED">AEDs (United Arab Emirates dirham)</option>
+
               </Form.Select>
             </Form.Group>
             <Form.Group className="my-3">

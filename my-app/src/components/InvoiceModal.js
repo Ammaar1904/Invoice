@@ -10,6 +10,9 @@ import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf'
 
 function GenerateInvoice() {
+  // Get the current counter value from localStorage, default to 1
+  let counter = parseInt(localStorage.getItem('invoiceCounter')) || 1;
+
   html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
     const imgData = canvas.toDataURL('image/png', 1.0);
     const pdf = new jsPDF({
@@ -18,13 +21,21 @@ function GenerateInvoice() {
       format: [612, 792]
     });
     pdf.internal.scaleFactor = 1;
-    const imgProps= pdf.getImageProperties(imgData);
+    const imgProps = pdf.getImageProperties(imgData);
     const pdfWidth = pdf.internal.pageSize.getWidth();
     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save('invoice-001.pdf');
+
+    // Save the PDF with a dynamic counter
+    const fileName = `invoice-${counter.toString().padStart(3, '0')}.pdf`;
+    pdf.save(fileName);
+
+    // Increment the counter and save it back to localStorage
+    counter++;
+    localStorage.setItem('invoiceCounter', counter);
   });
 }
+
 
 class InvoiceModal extends React.Component {
   constructor(props) {
@@ -62,9 +73,17 @@ class InvoiceModal extends React.Component {
                   <div>{this.props.info.billFromEmail||''}</div>
                 </Col>
                 <Col md={4}>
-                  <div className="fw-bold mt-2">Date Of Issue:</div>
+                  <div className="fw-bold mt-2">Due Date:</div>
                   <div>{this.props.info.dateOfIssue||''}</div>
                 </Col>
+                <Col md={5}>
+                  <div className="mb-2">
+                    <span className="fw-bold">Date Of Issue:&nbsp;</span>
+                    <span className="current-date">{new Date().toLocaleDateString()}</span>
+                  </div>
+                </Col>
+
+
               </Row>
               <Table className="mb-0">
                 <thead>
@@ -103,7 +122,7 @@ class InvoiceModal extends React.Component {
                   </tr>
                   <tr className="text-end">
                     <td></td>
-                    <td className="fw-bold" style={{width: '100px'}}>SUBTOTAL</td>
+                    <td className="fw-bold" style={{width: '100px'}}>Net Amount</td>
                     <td className="text-end" style={{width: '100px'}}>{this.props.currency} {this.props.subTotal}</td>
                   </tr>
                   {this.props.taxAmmount != 0.00 &&
