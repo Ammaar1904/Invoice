@@ -68,7 +68,7 @@ class InvoiceForm extends React.Component {
 
   handleCalculateTotal() {
     const subTotal = this.state.items.reduce((acc, item) => {
-      const itemTotal = parseFloat(item.price) * parseInt(item.quantity);
+      const itemTotal = parseFloat(item.price) * parseFloat(item.quantity);
       return acc + (isNaN(itemTotal) ? 0 : itemTotal);
     }, 0);
   
