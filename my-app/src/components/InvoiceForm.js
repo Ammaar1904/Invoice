@@ -56,15 +56,15 @@ class InvoiceForm extends React.Component {
     }, this.handleCalculateTotal);
   }
 
-  handleAddEvent(evt) {
+  handleAddEvent() {
     const id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
     const newItem = { id, name: '', description: '', price: '1.00', quantity: 1, itemPO: '' };
-
-    // this.setState(prevState => ({ items: [...prevState.items, newItem] }), this.handleCalculateTotal);
-    this.setState(prevState => ({ items: prevState.items.map(item => item.id === evt.target.id ? { ...item, [evt.target.name]: evt.target.value } : item)
+  
+    this.setState(prevState => ({ 
+      items: [...prevState.items, newItem] 
     }), this.handleCalculateTotal);
-    
   }
+  
 
   handleCalculateTotal() {
     const subTotal = this.state.items.reduce((acc, item) => {
