@@ -90,7 +90,7 @@ class InvoiceModal extends React.Component {
                   <tr>
                     <th>QTY</th>
                     <th>DESCRIPTION</th>
-                    <th className="text-end">PRICE</th>
+                    <th className="text-end">UNIT-PRICE</th>
                     <th>PO Number</th>
                     <th className="text-end">AMOUNT</th>
                   </tr>
