@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars, eqeqeq */
+/* eslint-disable no-useless-constructor, eqeqeq */
+
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
@@ -125,6 +128,7 @@ class InvoiceModal extends React.Component {
                     <td className="fw-bold" style={{width: '100px'}}>Net Amount</td>
                     <td className="text-end" style={{width: '100px'}}>{this.props.currency} {this.props.subTotal}</td>
                   </tr>
+                  
                   {this.props.taxAmmount != 0.00 &&
                     <tr className="text-end">
                       <td></td>

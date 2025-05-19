@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars, eqeqeq */
+/* eslint-disable no-useless-constructor, eqeqeq */
+
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
@@ -237,6 +240,8 @@ class InvoiceForm extends React.Component {
                 <option value="د.ت">TNDs (Tunisian Dinaar)</option>
                 <option value="د. إ">AED (United Arab Emirates dirham)</option>
                 <option value="AED">AEDs (United Arab Emirates dirham)</option>
+                <option value="₹">INR (Indian Rupee)</option>
+
 
               </Form.Select>
             </Form.Group>
